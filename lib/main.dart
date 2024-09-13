@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+// Steg 1 UI
+
 import 'package:flutter/material.dart';
 
 void main() {
