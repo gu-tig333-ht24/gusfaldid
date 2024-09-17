@@ -25,6 +25,12 @@ class MyApp extends StatelessWidget {
   }
 }
 
+class ToDo {
+  final String toDoText;
+
+  ToDo(this.toDoText);
+}
+
 //Här är koden för förstasidan
 
 class MyHomePage extends StatefulWidget {
@@ -38,26 +44,27 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+    List<ToDo> todos = [
+      ToDo('käka mat'),
+      ToDo('Pluggga'),
+      ToDo('Koda'),
+      ToDo('sova'),
+      ToDo('käka mat'),
+      ToDo('Pluggga'),
+      ToDo('Koda'),
+      ToDo('sova'),
+      ToDo('käka mat'),
+      ToDo('Pluggga'),
+      ToDo('Koda'),
+      ToDo('sova')
+    ];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
       body: ListView(
-        children: const [
-          ToDoWidget('käka mat'),
-          ToDoWidget('Pluggga'),
-          ToDoWidget('Koda'),
-          ToDoWidget('sova'),
-          ToDoWidget('käka mat'),
-          ToDoWidget('Pluggga'),
-          ToDoWidget('Koda'),
-          ToDoWidget('sova'),
-          ToDoWidget('käka mat'),
-          ToDoWidget('Pluggga'),
-          ToDoWidget('Koda'),
-          ToDoWidget('sova')
-        ],
+        children: todos.map((todo) => ToDoWidget(todo)).toList(),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -110,8 +117,8 @@ class AddToDoPage extends StatelessWidget {
 // Kod som bygger en instansa av todowidgeten, anropas i homepage koden.
 
 class ToDoWidget extends StatelessWidget {
-  final String toDoText;
-  const ToDoWidget(this.toDoText, {super.key});
+  final ToDo todo;
+  const ToDoWidget(this.todo, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +141,7 @@ class ToDoWidget extends StatelessWidget {
             ),
             Expanded(
               child: Text(
-                toDoText,
+                todo.toDoText,
                 style: TextStyle(fontSize: 20),
               ),
             ),
