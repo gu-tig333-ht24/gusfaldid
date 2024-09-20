@@ -1,11 +1,59 @@
 // ignore_for_file: prefer_const_constructors
 
-// Steg 1 UI
+// Steg 2 vilkorshantering
 
 import 'package:flutter/material.dart';
 
+import 'package:provider/provider.dart';
+import 'package:template/add_to_do_page.dart';
+import 'package:template/to_do_widget.dart';
+
+class MyState extends ChangeNotifier {
+  final List _toDoLista = [];
+
+  String _sortBy = 'All';
+
+  List get toDoLista {
+    if (_sortBy == 'All') {
+      return _toDoLista;
+    } else if (_sortBy == 'Done') {
+      return _toDoLista.where((todo) => todo.done).toList();
+    } else if (_sortBy == 'Undone') {
+      return _toDoLista.where((todo) => !todo.done).toList();
+    }
+    return _toDoLista;
+  }
+
+  void addToList(String text) {
+    ToDo(text);
+    _toDoLista.add(ToDo(text));
+    notifyListeners();
+  }
+
+  void setSortBy(String value) {
+    _sortBy = value;
+    notifyListeners();
+  }
+
+  void setBool(ToDo todo) {
+    todo.done = !todo.done;
+    notifyListeners();
+  }
+
+  void deleteToDo(ToDo todo) {
+    _toDoLista.remove(todo);
+    notifyListeners();
+  }
+}
+
 void main() {
-  runApp(const MyApp());
+  MyState state = MyState();
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => state,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +74,8 @@ class MyApp extends StatelessWidget {
 }
 
 class ToDo {
-  final String toDoText;
+  String toDoText;
+  bool done = false;
 
   ToDo(this.toDoText);
 }
@@ -44,24 +93,26 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    List<ToDo> todos = [
-      ToDo('käka mat'),
-      ToDo('Pluggga'),
-      ToDo('Koda'),
-      ToDo('sova'),
-      ToDo('käka mat'),
-      ToDo('Pluggga'),
-      ToDo('Koda'),
-      ToDo('sova'),
-      ToDo('käka mat'),
-      ToDo('Pluggga'),
-      ToDo('Koda'),
-      ToDo('sova')
-    ];
+    var todos = context.watch<MyState>().toDoLista;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
+        actions: [
+          PopupMenuButton(
+            onSelected: (String result) {
+              context.read<MyState>().setSortBy(result);
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem(value: 'All', child: Text('All')),
+              const PopupMenuItem<String>(
+                value: 'Done',
+                child: Text('Done'),
+              ),
+              const PopupMenuItem(value: 'Undone', child: Text('Undone')),
+            ],
+          ),
+        ],
       ),
       body: ListView(
         children: todos.map((todo) => ToDoWidget(todo)).toList(),
@@ -75,87 +126,6 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         child: const Icon(Icons.add),
       ),
-    );
-  }
-}
-
-// här är koden för den sidan där man ska kunna lägga till nya ToDos
-
-class AddToDoPage extends StatelessWidget {
-  const AddToDoPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:
-          AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.white, border: Border.all(color: Colors.black)),
-              child: Center(
-                child: Text(
-                  'What are you going to do?',
-                  style: TextStyle(color: Colors.grey),
-                ),
-              ),
-            ),
-          ),
-          Center(child: Text('ADD +')),
-        ],
-      ),
-    );
-  }
-}
-
-// Kod som bygger en instansa av todowidgeten, anropas i homepage koden.
-
-class ToDoWidget extends StatelessWidget {
-  final ToDo todo;
-  const ToDoWidget(this.todo, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(color: Colors.black)),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                todo.toDoText,
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Icon(Icons.close),
-            )
-          ],
-        ),
-        Container(
-          height: 1,
-          color: Colors.grey,
-        )
-      ],
     );
   }
 }
