@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:template/Todo_class.dart';
 import 'package:template/api.dart';
-import 'package:template/main.dart';
 
 class MyState extends ChangeNotifier {
   List _toDoLista = [];
@@ -46,6 +46,11 @@ class MyState extends ChangeNotifier {
 
   Future<void> setBool(ToDo todo) async {
     todo.done = !todo.done;
+    await changeTodoAPI(todo);
+    fetchTodos();
+  }
+
+  Future<void> changeTodo(todo) async {
     await changeTodoAPI(todo);
     fetchTodos();
   }

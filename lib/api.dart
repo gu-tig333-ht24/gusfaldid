@@ -1,7 +1,6 @@
 import 'package:http/http.dart' as http;
+import 'package:template/Todo_class.dart';
 import 'dart:convert';
-
-import 'package:template/main.dart';
 
 const String ENDPOINT = 'https://todoapp-api.apps.k8s.gu.se';
 
@@ -42,6 +41,6 @@ Future<void> changeTodoAPI(ToDo todo) async {
   var title = todo.title;
   await http.put(Uri.parse('$ENDPOINT/todos/$key?key=$APIKey'),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"title": "$title", "done": done}));
+      body: jsonEncode({"title": title, "done": done}));
   print('todo ändrad!');
 }
