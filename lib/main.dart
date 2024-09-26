@@ -12,10 +12,10 @@ class ToDo {
   String title;
   bool done = false;
 
-  ToDo(this.id, this.title, this.done);
+  ToDo({this.id, required this.title, this.done = false});
 
   factory ToDo.fromJson(Map<String, dynamic> json) {
-    return ToDo(json['id'], json['title'], json['done']);
+    return ToDo(id: json['id'], title: json['title'], done: json['done']);
   }
 }
 

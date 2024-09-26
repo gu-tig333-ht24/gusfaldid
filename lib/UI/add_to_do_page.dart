@@ -37,7 +37,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
           Center(
             child: ElevatedButton(
               onPressed: () {
-                context.read<MyState>().addToList("0123", newToDo, false);
+                context.read<MyState>().addToDo(newToDo);
                 Navigator.pop(context);
               },
               child: Text('Lägg till'),

@@ -21,7 +21,7 @@ Future<List<ToDo>> getTodosFromAPI() async {
   return todos;
 }
 
-void postTodoAPI(String title) async {
+Future<void> postTodoAPI(String title) async {
   await http.post(
     Uri.parse('$ENDPOINT/todos?key=$APIKey'),
     headers: {"Content-Type": "application/json"},
@@ -30,16 +30,16 @@ void postTodoAPI(String title) async {
   print('todo posted!!');
 }
 
-void deleteTodoFromAPI() async {
-  var key = "3f330884-eda6-4338-a8ad-2f876a77230e";
+Future<void> deleteTodoFromAPI(ToDo todo) async {
+  var key = todo.id;
   await http.delete(Uri.parse('$ENDPOINT/todos/$key?key=$APIKey'));
   print('todo deleted');
 }
 
-void changeTodoAPI() async {
-  var done = true;
-  var key = "1ed519b0-495a-408c-b57e-dbd4eb023086";
-  var title = "Hejsanhoppsan";
+Future<void> changeTodoAPI(ToDo todo) async {
+  var done = todo.done;
+  var key = todo.id;
+  var title = todo.title;
   await http.put(Uri.parse('$ENDPOINT/todos/$key?key=$APIKey'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({"title": "$title", "done": done}));

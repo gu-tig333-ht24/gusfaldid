@@ -18,30 +18,35 @@ class MyState extends ChangeNotifier {
     return _toDoLista;
   }
 
-  Future<void> fetchTodos() async {
-    List<ToDo> todos = await getTodosFromAPI();
-    _toDoLista = todos;
-    notifyListeners();
-  }
-
-  void addToList(String text, var id, var done) {
-    ToDo(text, id, done);
-    _toDoLista.add(ToDo(text, id, done));
-    notifyListeners();
-  }
-
   void setSortBy(String value) {
     _sortBy = value;
     notifyListeners();
   }
 
-  void setBool(ToDo todo) {
-    todo.done = !todo.done;
+  MyState() {
+    fetchTodos();
+  }
+
+  Future<void> fetchTodos() async {
+    List<ToDo> todos =
+        await getTodosFromAPI(); //ska denna egentligen ligga som funktion utanför?
+    _toDoLista = todos; //och så skapar jag en konstruktor som hämtar det?
     notifyListeners();
   }
 
-  void deleteToDo(ToDo todo) {
-    _toDoLista.remove(todo);
-    notifyListeners();
+  Future<void> addToDo(String text) async {
+    await postTodoAPI(text);
+    fetchTodos();
+  }
+
+  Future<void> deleteToDo(ToDo todo) async {
+    await deleteTodoFromAPI(todo);
+    fetchTodos();
+  }
+
+  Future<void> setBool(ToDo todo) async {
+    todo.done = !todo.done;
+    await changeTodoAPI(todo);
+    fetchTodos();
   }
 }
