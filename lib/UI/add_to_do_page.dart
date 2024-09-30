@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:template/main.dart';
+import 'package:template/My_state.dart';
 
 class AddToDoPage extends StatefulWidget {
   const AddToDoPage({super.key});
@@ -37,7 +37,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
           Center(
             child: ElevatedButton(
               onPressed: () {
-                context.read<MyState>().addToList(newToDo);
+                context.read<MyState>().addToDo(newToDo);
                 Navigator.pop(context);
               },
               child: Text('Lägg till'),
