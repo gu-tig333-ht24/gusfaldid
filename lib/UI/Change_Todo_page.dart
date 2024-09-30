@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:template/My_state.dart';
 import 'package:template/Todo_class.dart';
 
+// ignore: must_be_immutable
 class ChangeTodoPage extends StatelessWidget {
   final ToDo todo;
   String newToDoText = '';
