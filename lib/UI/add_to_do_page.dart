@@ -40,7 +40,7 @@ class _AddToDoPageState extends State<AddToDoPage> {
                 context.read<MyState>().addToDo(newToDo);
                 Navigator.pop(context);
               },
-              child: Text('Lägg till'),
+              child: Text('Lägg till', style: TextStyle(color: Colors.black)),
             ),
           ),
         ],

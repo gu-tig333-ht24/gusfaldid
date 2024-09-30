@@ -14,6 +14,7 @@ class ChangeTodoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text('Change ToDo'),
       ),
       body: Padding(
@@ -32,7 +33,7 @@ class ChangeTodoPage extends StatelessWidget {
                 newToDoText = text;
               },
             ),
-            SizedBox(height: 16),
+            SizedBox(height: 20),
             Align(
               alignment: Alignment.center,
               child: ElevatedButton(
@@ -41,7 +42,10 @@ class ChangeTodoPage extends StatelessWidget {
                   context.read<MyState>().changeTodo(todo);
                   Navigator.pop(context);
                 },
-                child: Text('Change Todo'),
+                child: Text(
+                  'Change Todo',
+                  style: TextStyle(color: Colors.black),
+                ),
               ),
             ),
           ],
