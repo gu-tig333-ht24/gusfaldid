@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/My_state.dart';
-import 'package:template/UI/My_home_page.dart';
+import 'package:template/UI/my_home_page.dart';
 
 void main() {
   MyState state = MyState();

@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:template/Todo_class.dart';
+import 'package:template/to_do.dart';
 import 'dart:convert';
 
 const String ENDPOINT = 'https://todoapp-api.apps.k8s.gu.se';

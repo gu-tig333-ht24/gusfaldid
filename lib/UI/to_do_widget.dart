@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:template/My_state.dart';
-import 'package:template/Todo_class.dart';
-import 'package:template/UI/Change_Todo_page.dart';
+import 'package:template/UI/change_todo_page.dart';
+import 'package:template/to_do.dart';
 
 class ToDoWidget extends StatelessWidget {
   final ToDo todo;
