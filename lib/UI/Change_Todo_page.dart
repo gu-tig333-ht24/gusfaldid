@@ -6,7 +6,7 @@ import 'package:template/to_do.dart';
 // ignore: must_be_immutable
 class ChangeTodoPage extends StatelessWidget {
   final ToDo todo;
-  String newToDoText = '';
+  late String newToDoText;
 
   ChangeTodoPage(this.todo, {super.key});
 
